@@ -1,78 +1,79 @@
-# 龋齿检测（YOLOv8）完整项目
+# Dental caries detection (YOLOv8)
 
-基于 [AndreyGermanov/yolov8_caries_detector](https://github.com/AndreyGermanov/yolov8_caries_detector) 的牙齿龋病/洞/裂纹检测：数据转换、训练、推理与简易 Web 服务。
+Object detection for caries, cavities, cracks, and teeth in intraoral-style images: data conversion, training, inference, and a minimal web UI. Based on [AndreyGermanov/yolov8_caries_detector](https://github.com/AndreyGermanov/yolov8_caries_detector).
 
-## 本仓库里有什么 / 没有什么（重要）
+## What this repository contains (and does not)
 
-为减小体积，**本仓库通常只包含 `yolo_dataset/data.yaml`（请保持此相对路径，勿放在仓库根目录）**，不包含 `yolo_dataset/**/images` 与 `labels`，也**不包含**原始 `dataset/` 或大型 `.tar`。**不能直接训练**：必须先在本机准备好原始数据，再运行转换脚本生成完整 `yolo_dataset/`。
+To keep the repo small, it **usually only includes `yolo_dataset/data.yaml`** (keep this **relative path**; do **not** put `data.yaml` at the repository root). It does **not** include `yolo_dataset/**/images` or `labels`, the raw **`dataset/`** tree, or large **`.tar`** archives.
 
-**推荐流程概览：**
+**You cannot train immediately after clone.** Prepare the raw DatasetNinja/Supervisely-style data locally, then run the conversion script to build a full `yolo_dataset/`.
 
-1. 自备 DentalAI 风格数据（见下文「数据集来源」），在项目根目录得到 `dataset/train|valid|test/{img,ann}` 与 `dataset/meta.json`。  
-2. 安装依赖后执行：`python run_convert.py`  
-3. 脚本会**清空并重建** `yolo_dataset/`，写入 `images/`、`labels/` 以及新的 `data.yaml`（类别与仓库里提交的 `data.yaml` 一致；路径由脚本生成）。  
-4. 再运行 `run_yolo_compare.ps1` 或自行调用 Ultralytics 训练。
+**Typical workflow:**
 
-若你使用 `run_all.ps1` 从 `.tar` 解压，会自动完成「解压 → `dataset/` → `run_convert.py`」。
+1. Obtain DentalAI-style data (see **Data source** below). You should have `dataset/train|valid|test/{img,ann}` and `dataset/meta.json` under the project root.  
+2. Install dependencies, then run: `python run_convert.py`  
+3. The script **deletes and recreates** `yolo_dataset/`, writing `images/`, `labels/`, and a new `data.yaml` (same class names as the checked-in `data.yaml`; paths are written by the script).  
+4. Run `run_yolo_compare.ps1` or call Ultralytics training yourself.
 
-### `.gitignore` 传不上 GitHub？
+If you use `run_all.ps1` with a `.tar`, it performs extract → `dataset/` → `run_convert.py` automatically.
 
-网页 **Upload files** 可能提示以 `.` 开头的文件为 *hidden* 无法上传。可以任选其一：
+### Cannot upload `.gitignore` on GitHub?
 
-1. 在 GitHub 网页：**Add file → Create new file**，文件名手动输入 **`.gitignore`**，把本地 `.gitignore` 内容粘贴进去后提交。  
-2. 上传本仓库中的 **`gitignore.txt`**，克隆到本地后执行：  
-   `Rename-Item gitignore.txt .gitignore`（PowerShell）或手动重命名。  
-3. 使用 **Git 命令行**：`git add .gitignore && git commit`。
+The web **Upload files** UI may treat dotfiles as *hidden*. Use any of these:
 
-**说明：** 默认的忽略规则里包含 `logs/`、`runs/`。若你**故意要把训练日志或 `runs` 一并推到 GitHub**，请在生成 `.gitignore` 前删掉对应行，或改用 Release/网盘存放大文件。
+1. On GitHub: **Add file → Create new file**, set the filename to **`.gitignore`**, paste your local `.gitignore`, and commit.  
+2. Upload **`gitignore.txt`** from this repo, then after clone run:  
+   `Rename-Item gitignore.txt .gitignore` (PowerShell) or rename manually.  
+3. Use **Git from the terminal**: `git add .gitignore && git commit`.
 
-## 目录说明
+**Note:** The default ignore rules list `logs/` and `runs/`. If you **want** to push training logs or `runs/` to GitHub, remove those lines before activating `.gitignore`, or store large artifacts in Releases / cloud storage.
 
-| 路径 | 说明 |
-|------|------|
-| `dataset/` | 原始数据（`train`/`valid`/`test` 各含 `img`+`ann`，及 `meta.json`）——**一般需自备，不在精简仓库中** |
-| `yolo_dataset/` | `run_convert.py` 生成的 YOLO 格式与 `data.yaml`；**精简仓库可能仅有 `data.yaml` 作参考** |
-| `run_convert.py` | Supervisely 风格 JSON → YOLO txt（等价于 `convert.ipynb`） |
-| `run_all.ps1` | 一键：解压 tar → 安装依赖 → 转换 → 可选烟测训练/预测/Web |
-| `train_yolo_compare.py` | 多版本 YOLO 统一超参对比训练 |
-| `run_yolo_compare.ps1` | 对比训练封装（写日志） |
-| `object_detector.py` + `index.html` | 本地 Web：`http://127.0.0.1:8080` |
-| `best.pt` | 默认推理权重（可替换为你训练得到的 `weights/best.pt`） |
+## Repository layout
 
-## 环境
+| Path | Description |
+|------|-------------|
+| `dataset/` | Raw data (`train` / `valid` / `test` with `img` + `ann`, plus `meta.json`) — **usually not in the minimal repo; provide locally** |
+| `yolo_dataset/` | YOLO layout and `data.yaml` produced by `run_convert.py`; **minimal repo may only ship `data.yaml` as reference** |
+| `run_convert.py` | Supervisely-style JSON → YOLO labels (script counterpart of `convert.ipynb`) |
+| `run_all.ps1` | One-shot: extract tar → install deps → convert → optional smoke train / predict / web |
+| `train_yolo_compare.py` | Train several YOLO variants with shared hyperparameters |
+| `run_yolo_compare.ps1` | Wrapper for compare training (logging) |
+| `object_detector.py` + `index.html` | Local web UI at `http://127.0.0.1:8080` |
+| `best.pt` | Default weights for inference (replace with your `weights/best.pt`) |
 
-- Python 3.10+（推荐；需与 `torch` 轮子匹配）
-- Windows 自带 `tar` 用于解压 `.tar` 数据包
+## Requirements
+
+- Python 3.10+ recommended (match your PyTorch wheels).  
+- Windows **tar** for `.tar` archives (used by `run_all.ps1`).
 
 ```powershell
-cd <本仓库根目录>   # 与 run_convert.py 同级
+cd <REPO_ROOT>   # same folder as run_convert.py
 python -m pip install -r requirements.txt
 ```
 
-## 一键流程（推荐）
+## One-click pipeline (recommended)
 
-将完整数据包（`.tar`，顶层含 `train/`、`valid/`、`test/`、`meta.json` 等）放在本机任意路径，例如 `C:\data\dentalai_sample.tar`：
+Place your full archive (top-level `train/`, `valid/`, `test/`, `meta.json`, etc.) anywhere on disk, e.g. `C:\data\dentalai_sample.tar`:
 
 ```powershell
-cd <本仓库根目录>
+cd <REPO_ROOT>
 .\run_all.ps1 -TarPath "C:\data\dentalai_sample.tar"
 ```
 
-已有 `dataset\` 时：
+If `dataset/` already exists:
 
 ```powershell
 .\run_all.ps1 -SkipExtract
 ```
 
-参数：` -SkipTrain` ` -SkipPredict` ` -SkipWeb` ` -Device 0`（GPU）
+Flags: `-SkipTrain`, `-SkipPredict`, `-SkipWeb`, `-Device 0` (GPU).  
+Logs: `logs\run_all_*.log`
 
-日志：`logs\run_all_*.log`
+## Manual steps
 
-## 手动步骤
-
-1. 准备 `dataset/`（与上表结构一致）。**仅克隆到 `yolo_dataset/data.yaml` 时，此步为必须；**不可在未转换的情况下直接训练。
-2. `python run_convert.py` → 生成完整 `yolo_dataset/`（含 `images/`、`labels/` 与 `data.yaml`）。
-3. 训练（与 `train.ipynb` 一致，示例）：
+1. Prepare `dataset/` as in the table above. **Required if you only cloned `yolo_dataset/data.yaml` — do not train before conversion.**  
+2. `python run_convert.py` → full `yolo_dataset/` (`images/`, `labels/`, `data.yaml`).  
+3. Train (same idea as `train.ipynb`), for example:
 
 ```python
 from ultralytics import YOLO
@@ -83,44 +84,44 @@ model.train(
     epochs=30,
     imgsz=640,
     batch=16,
-    device="cpu",  # 或 0
+    device="cpu",  # or 0 for GPU
 )
 ```
 
-4. 最优权重一般在：`runs/detect/train/weights/best.pt`（名称随 `project`/`name` 变化）。复制到项目根目录 `best.pt` 即可被 Web 与默认推理使用。
+4. Best weights are typically under `runs/detect/<run>/weights/best.pt` (exact path depends on `project` / `name`). Copy to repo-root `best.pt` for the default web demo.
 
-## Web 服务
+## Web service
 
 ```powershell
-cd <本仓库根目录>
+cd <REPO_ROOT>
 python object_detector.py
 ```
 
-浏览器打开 `http://127.0.0.1:8080` 上传图片。  
-指定权重（环境变量）：
+Open `http://127.0.0.1:8080` and upload an image.  
+Custom weights:
 
 ```powershell
 $env:YOLO_MODEL_PATH = "runs\detect\train\weights\best.pt"
 python object_detector.py
 ```
 
-API：`POST /detect`，表单字段名 `image_file`，返回 JSON 框数组。当前示例接口仅返回 **Caries（类别 id 0）** 的框。
+**API:** `POST /detect`, form field **`image_file`**, JSON array of boxes. The sample server **returns only class id 0 (Caries)** for the demo.
 
-## 多模型对比训练
+## Multi-model comparison
 
-需先存在 `yolo_dataset\data.yaml`：
+Requires a valid `yolo_dataset\data.yaml` (and full dataset after conversion):
 
 ```powershell
 .\run_yolo_compare.ps1 -Device cpu -Epochs 100 -Batch 16
 ```
 
-结果与汇总：`runs\compare\_compare_logs\summary_all.json`。  
-监控：`tensorboard --logdir runs`（另开终端）。
+Summary: `runs\compare\_compare_logs\summary_all.json`.  
+TensorBoard: `tensorboard --logdir runs` (separate terminal).
 
-## 数据集来源
+## Data source
 
-DentalAI 等见原仓库说明：[datasetninja.com/dentalai](https://datasetninja.com/dentalai)（与上游 README 一致）。
+DentalAI and related links: [datasetninja.com/dentalai](https://datasetninja.com/dentalai) (see upstream README).
 
-## 许可
+## License
 
-以仓库内 `LICENSE` / `LICENSE.md` 为准。
+See `LICENSE` / `LICENSE.md` in this repository.
