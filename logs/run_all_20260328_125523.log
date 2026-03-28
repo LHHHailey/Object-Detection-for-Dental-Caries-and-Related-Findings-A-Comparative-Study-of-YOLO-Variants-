@@ -1,0 +1,15 @@
+﻿2026-03-28T12:55:24.8521657+08:00  === run_all.ps1 start ===
+2026-03-28T12:55:24.8701715+08:00  ProjectRoot=D:\Desktop\YOLOv8\yolov8_caries_detector-main\yolov8_caries_detector-main
+2026-03-28T12:55:24.8741664+08:00  TarPath=D:\Desktop\YOLOv8\dentalai_sample.tar  SkipExtract=False  SkipTrain=False
+2026-03-28T12:55:24.8816738+08:00  Python: D:\APP\Python\python3.14.2\python.exe
+2026-03-28T12:55:24.9156848+08:00  Python 3.14.2
+2026-03-28T12:55:24.9216851+08:00  Extracting tar -> D:\Desktop\YOLOv8\yolov8_caries_detector-main\yolov8_caries_detector-main\_dataset_extract_tmp
+2026-03-28T12:55:25.8593257+08:00  dataset ready under D:\Desktop\YOLOv8\yolov8_caries_detector-main\yolov8_caries_detector-main\dataset
+2026-03-28T12:55:25.8623271+08:00  pip install -r requirements.txt
+2026-03-28T12:55:38.9002822+08:00  python run_convert.py
+2026-03-28T12:55:48.8405520+08:00  Smoke train 1 epoch yolov8m (device=cpu)
+2026-03-28T13:05:31.6218654+08:00  Predict caries.jpg -> runs/detect/run_all_predict
+2026-03-28T13:05:35.2720872+08:00  Starting object_detector.py on :8080 (background job). Stop manually in Task Manager or close window.
+2026-03-28T13:05:35.7736638+08:00  Background Job Id: 1  (Get-Job / Stop-Job)
+2026-03-28T13:05:39.8905639+08:00  HTTP / -> 200
+2026-03-28T13:05:39.8925616+08:00  === run_all.ps1 done. Log: D:\Desktop\YOLOv8\yolov8_caries_detector-main\yolov8_caries_detector-main\logs\run_all_20260328_125523.log ===
