@@ -30,6 +30,7 @@ If you use `run_all.ps1` with a `.tar`, it performs extract → `dataset/` → `
 | `run_yolo_compare.ps1` | Wrapper for compare training (logging) |
 | `object_detector.py` + `index.html` | Local web UI at `http://127.0.0.1:8080` |
 | `best.pt` | Default weights for inference (replace with your `weights/best.pt`) |
+| `val_test_compare.py` | Evaluate compare checkpoints on **test** split; writes `runs/test_eval/` |
 
 ## Requirements
 
@@ -111,6 +112,18 @@ TensorBoard: `tensorboard --logdir runs` (separate terminal).
 
 <img src="https://github.com/LHHHailey/Object-Detection-for-Dental-Caries-and-Related-Findings-A-Comparative-Study-of-YOLO-Variants-/blob/main/Performance%20comparison%20of%20four%20YOLO%20variants.png?raw=true" width="500" alt="Multi-model Comparison of YOLO Variants for Dental Caries Detection">
 <p style="color:gray; font-size:14px;">Figure: Performance comparison of four YOLO variants (YOLOv5nu, YOLOv8m, YOLO11m, YOLO12m) on the dental caries detection task.</p>
+
+## Test-set evaluation
+
+Training logs in `runs/compare/*/results.csv` use the **validation** split (`val`). For a **held-out test** evaluation (same `yolo_dataset/data.yaml`, `split=test`):
+
+```powershell
+cd <REPO_ROOT>
+python val_test_compare.py
+# GPU:
+python val_test_compare.py --device 0
+# Metrics only (faster, no plots):
+python val_test_compare.py --no-plots
 
 
 ## Data source
