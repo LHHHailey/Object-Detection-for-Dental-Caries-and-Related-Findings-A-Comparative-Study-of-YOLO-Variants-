@@ -18,17 +18,6 @@ To keep the repo small, it **usually only includes `yolo_dataset/data.yaml`** (k
 
 If you use `run_all.ps1` with a `.tar`, it performs extract → `dataset/` → `run_convert.py` automatically.
 
-### Cannot upload `.gitignore` on GitHub?
-
-The web **Upload files** UI may treat dotfiles as *hidden*. Use any of these:
-
-1. On GitHub: **Add file → Create new file**, set the filename to **`.gitignore`**, paste your local `.gitignore`, and commit.  
-2. Upload **`gitignore.txt`** from this repo, then after clone run:  
-   `Rename-Item gitignore.txt .gitignore` (PowerShell) or rename manually.  
-3. Use **Git from the terminal**: `git add .gitignore && git commit`.
-
-**Note:** The default ignore rules list `logs/` and `runs/`. If you **want** to push training logs or `runs/` to GitHub, remove those lines before activating `.gitignore`, or store large artifacts in Releases / cloud storage.
-
 ## Repository layout
 
 | Path | Description |
