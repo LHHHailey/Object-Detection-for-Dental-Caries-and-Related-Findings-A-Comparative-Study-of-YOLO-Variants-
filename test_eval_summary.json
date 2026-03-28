@@ -1,0 +1,47 @@
+{
+  "description": "Held-out TEST split metrics (Ultralytics model.val split=test). Same 90 images / 1059 instances, four classes: Caries, Cavity, Crack, Tooth.",
+  "environment_note": "Example run: Ultralytics 8.4.x, CPU; regenerate locally with val_test_compare.py",
+  "models": [
+    {
+      "name": "yolov5nu",
+      "weights_relative": "runs/compare/yolov5nu/weights/best.pt",
+      "precision": 0.645,
+      "recall": 0.509,
+      "mAP50": 0.482,
+      "mAP50_95": 0.352,
+      "per_class_mAP50_95": [0.086, 0.214, 0.285, 0.823],
+      "wall_time_s": 6.2
+    },
+    {
+      "name": "yolov8m",
+      "weights_relative": "runs/compare/yolov8m/weights/best.pt",
+      "precision": 0.551,
+      "recall": 0.526,
+      "mAP50": 0.495,
+      "mAP50_95": 0.376,
+      "per_class_mAP50_95": [0.156, 0.232, 0.252, 0.864],
+      "wall_time_s": 16.2
+    },
+    {
+      "name": "yolo11m",
+      "weights_relative": "runs/compare/yolo11m/weights/best.pt",
+      "precision": 0.744,
+      "recall": 0.520,
+      "mAP50": 0.540,
+      "mAP50_95": 0.400,
+      "per_class_mAP50_95": [0.164, 0.296, 0.269, 0.868],
+      "wall_time_s": 16.3
+    },
+    {
+      "name": "yolo12m",
+      "weights_relative": "runs/compare/yolo12m/weights/best.pt",
+      "precision": 0.647,
+      "recall": 0.534,
+      "mAP50": 0.541,
+      "mAP50_95": 0.400,
+      "per_class_mAP50_95": [0.169, 0.273, 0.285, 0.871],
+      "wall_time_s": 17.5
+    }
+  ],
+  "class_order": ["Caries", "Cavity", "Crack", "Tooth"]
+}
