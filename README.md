@@ -1,4 +1,5 @@
-# Dental caries detection (YOLOv8)
+# Dental caries detection 
+Findings:A Comparative Study of YOLO Variants (20-Epoch Benchmark)
 
 Object detection for caries, cavities, cracks, and teeth in intraoral-style images: data conversion, training, inference, and a minimal web UI. Based on [AndreyGermanov/yolov8_caries_detector](https://github.com/AndreyGermanov/yolov8_caries_detector).
 
