@@ -1,0 +1,8 @@
+{
+  "name": "yolo12m",
+  "weights": "yolo12m.pt",
+  "status": "ok",
+  "best": "D:\\Desktop\\YOLOv8\\yolov8_caries_detector-main\\yolov8_caries_detector-main\\runs\\compare\\yolo12m\\weights\\best.pt",
+  "error": null,
+  "seconds": 16015.8
+}
