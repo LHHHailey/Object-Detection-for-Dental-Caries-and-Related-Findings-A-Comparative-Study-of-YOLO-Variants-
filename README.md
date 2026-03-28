@@ -109,6 +109,10 @@ Requires a valid `yolo_dataset\data.yaml` (and full dataset after conversion):
 Summary: `runs\compare\_compare_logs\summary_all.json`.  
 TensorBoard: `tensorboard --logdir runs` (separate terminal).
 
+<img src="https://github.com/LHHHailey/Object-Detection-for-Dental-Caries-and-Related-Findings-A-Comparative-Study-of-YOLO-Variants-/blob/main/Performance%20comparison%20of%20four%20YOLO%20variants.png?raw=true" width="500" alt="Multi-model Comparison of YOLO Variants for Dental Caries Detection">
+<p style="color:gray; font-size:14px;">Figure: Performance comparison of four YOLO variants (YOLOv5nu, YOLOv8m, YOLO11m, YOLO12m) on the dental caries detection task.</p>
+
+
 ## Data source
 
 DentalAI and related links: [datasetninja.com/dentalai](https://datasetninja.com/dentalai) (see upstream README).
