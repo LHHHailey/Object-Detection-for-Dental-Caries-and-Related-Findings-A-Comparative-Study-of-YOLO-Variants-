@@ -94,6 +94,7 @@ Custom weights:
 $env:YOLO_MODEL_PATH = "runs\detect\train\weights\best.pt"
 python object_detector.py
 ```
+![caries_demo](https://github.com/LHHHailey/Object-Detection-for-Dental-Caries-and-Related-Findings-A-Comparative-Study-of-YOLO-Variants-/blob/main/caries_demo.png)
 
 **API:** `POST /detect`, form field **`image_file`**, JSON array of boxes. The sample server **returns only class id 0 (Caries)** for the demo.
 
